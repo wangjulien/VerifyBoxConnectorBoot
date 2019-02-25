@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name='LP7VerifyBoxService' targetNamespace='http://ws.server.lp7verifybox.lexpersona.com/' xmlns='http://schemas.xmlsoap.org/wsdl/' xmlns:ns1='http://jaxb.server.lp7verifybox.lexpersona.com/' xmlns:soap='http://schemas.xmlsoap.org/wsdl/soap/' xmlns:tns='http://ws.server.lp7verifybox.lexpersona.com/' xmlns:xsd='http://www.w3.org/2001/XMLSchema'>
+ <types>
+  <xs:schema targetNamespace='http://ws.server.lp7verifybox.lexpersona.com/' version='1.0' xmlns:ns1='http://jaxb.server.lp7verifybox.lexpersona.com/' xmlns:xs='http://www.w3.org/2001/XMLSchema'>
+   <xs:import namespace='http://jaxb.server.lp7verifybox.lexpersona.com/'/>
+   <xs:element name='ValidationPolicyRequest' nillable='true' type='ns1:ValidationPolicyRequestType'/>
+   <xs:element name='ValidationPolicyResponse' nillable='true' type='ns1:ValidationPolicyResponseType'/>
+   <xs:element name='VerificationLogRequest' nillable='true' type='ns1:VerificationLogRequestType'/>
+   <xs:element name='VerificationLogResponse' nillable='true' type='ns1:VerificationLogResponseType'/>
+   <xs:element name='VerifyRequest' nillable='true' type='ns1:VerifyRequestType'/>
+   <xs:element name='VerifyResponse' nillable='true' type='ns1:VerifyResponseType'/>
+  </xs:schema>
+  <xs:schema targetNamespace='http://jaxb.server.lp7verifybox.lexpersona.com/' version='1.0' xmlns:tns='http://jaxb.server.lp7verifybox.lexpersona.com/' xmlns:xs='http://www.w3.org/2001/XMLSchema'>
+   <xs:complexType name='VerifyRequestType'>
+    <xs:sequence>
+     <xs:element name='EvidenceObject' type='tns:DocumentType'/>
+     <xs:element minOccurs='0' name='OptionalInputs' type='tns:OptionalInputsType'/>
+    </xs:sequence>
+    <xs:attribute name='RequestID' type='xs:string'/>
+   </xs:complexType>
+   <xs:complexType name='DocumentType'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='FilePathData' type='tns:FilePathDataType'/>
+     <xs:element minOccurs='0' name='FTMData' type='tns:FTMDataType'/>
+     <xs:element minOccurs='0' name='Base64Data' type='tns:Base64DataType'/>
+     <xs:element minOccurs='0' name='PlainData' type='tns:PlainDataType'/>
+    </xs:sequence>
+    <xs:attribute name='ID' type='xs:ID' use='required'/>
+    <xs:attribute name='FileName' type='xs:string'/>
+    <xs:attribute name='MimeType' type='xs:string'/>
+   </xs:complexType>
+   <xs:complexType name='FilePathDataType'>
+    <xs:complexContent>
+     <xs:extension base='tns:AbstractDataType'>
+      <xs:sequence>
+       <xs:element name='FilePath' type='xs:string'/>
+      </xs:sequence>
+     </xs:extension>
+    </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType abstract='true' name='AbstractDataType'>
+    <xs:sequence/>
+   </xs:complexType>
+   <xs:complexType name='FTMDataType'>
+    <xs:complexContent>
+     <xs:extension base='tns:AbstractDataType'>
+      <xs:sequence>
+       <xs:element name='FileID' type='xs:string'/>
+       <xs:element name='FileSize' type='xs:long'/>
+      </xs:sequence>
+     </xs:extension>
+    </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name='PlainDataType'>
+    <xs:complexContent>
+     <xs:extension base='tns:AbstractDataType'>
+      <xs:sequence>
+       <xs:element name='PlainValue' type='xs:base64Binary'/>
+      </xs:sequence>
+     </xs:extension>
+    </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name='Base64DataType'>
+    <xs:complexContent>
+     <xs:extension base='tns:AbstractDataType'>
+      <xs:sequence>
+       <xs:element name='Base64Value' type='xs:string'/>
+      </xs:sequence>
+     </xs:extension>
+    </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name='OptionalInputsType'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='SignaturePolicy' type='xs:string'/>
+     <xs:element minOccurs='0' name='SupportingDocuments' type='tns:DocumentsType'/>
+     <xs:element minOccurs='0' name='VerificationToken' type='tns:DocumentType'/>
+     <xs:element minOccurs='0' name='VerificationTime' type='xs:dateTime'/>
+     <xs:element minOccurs='0' name='RequestedData' type='tns:RequestedDataType'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='DocumentsType'>
+    <xs:sequence>
+     <xs:element maxOccurs='unbounded' minOccurs='0' name='Document' type='tns:DocumentType'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='RequestedDataType'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='VerificationToken' type='tns:OutputSettingsType'/>
+     <xs:element minOccurs='0' name='SignedData' type='tns:OutputSettingsType'/>
+     <xs:element minOccurs='0' name='UpdatedEvidence' type='tns:OutputSettingsType'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='OutputSettingsType'>
+    <xs:sequence>
+     <xs:element name='Mode' type='tns:OutputModeType'/>
+     <xs:element minOccurs='0' name='Directory' type='xs:string'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='VerifyResponseType'>
+    <xs:sequence>
+     <xs:element name='Result' type='tns:ResultType'/>
+     <xs:element minOccurs='0' name='OptionalOutputs' type='tns:OptionalOutputsType'/>
+    </xs:sequence>
+    <xs:attribute name='RequestID' type='xs:string'/>
+   </xs:complexType>
+   <xs:complexType name='ResultType'>
+    <xs:sequence>
+     <xs:element name='MajorCode' type='xs:int'/>
+     <xs:element name='MinorCode' type='xs:int'/>
+     <xs:element minOccurs='0' name='VerificationStatus' type='tns:StatusType'/>
+     <xs:element minOccurs='0' name='Message' type='xs:string'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='OptionalOutputsType'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='VerificationToken' type='tns:DocumentType'/>
+     <xs:element minOccurs='0' name='UpdatedEvidence' type='tns:DocumentType'/>
+     <xs:element minOccurs='0' name='SignedData' type='tns:DocumentsType'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='ValidationPolicyRequestType'>
+    <xs:sequence>
+     <xs:element name='ReturnContent' type='xs:boolean'/>
+    </xs:sequence>
+    <xs:attribute name='RequestID' type='xs:string'/>
+   </xs:complexType>
+   <xs:complexType name='ValidationPolicyResponseType'>
+    <xs:sequence>
+     <xs:element maxOccurs='unbounded' minOccurs='0' name='ValidationPolicy' type='tns:ValidationPolicyType'/>
+    </xs:sequence>
+    <xs:attribute name='RequestID' type='xs:string'/>
+   </xs:complexType>
+   <xs:complexType name='ValidationPolicyType'>
+    <xs:sequence>
+     <xs:element name='Id' type='xs:string'/>
+     <xs:element name='Default' type='xs:boolean'/>
+     <xs:element minOccurs='0' name='Description' type='xs:string'/>
+     <xs:element minOccurs='0' name='Content' type='xs:string'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='VerificationLogRequestType'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='Id' type='xs:string'/>
+     <xs:element minOccurs='0' name='EvidenceDigest' type='tns:DigestType'/>
+     <xs:element minOccurs='0' name='OutputSettings' type='tns:OutputSettingsType'/>
+    </xs:sequence>
+    <xs:attribute name='RequestID' type='xs:string'/>
+   </xs:complexType>
+   <xs:complexType name='DigestType'>
+    <xs:sequence>
+     <xs:element name='AlgorithmOID' type='xs:string'/>
+     <xs:element name='Value' type='xs:string'/>
+    </xs:sequence>
+    <xs:attribute name='Encoding' type='tns:EncodingType' use='required'/>
+   </xs:complexType>
+   <xs:complexType name='VerificationLogResponseType'>
+    <xs:sequence>
+     <xs:element maxOccurs='unbounded' minOccurs='0' name='VerificationLog' type='tns:VerificationLogType'/>
+    </xs:sequence>
+    <xs:attribute name='RequestID' type='xs:string'/>
+   </xs:complexType>
+   <xs:complexType name='VerificationLogType'>
+    <xs:sequence>
+     <xs:element name='Id' type='xs:string'/>
+     <xs:element name='MajorCode' type='xs:int'/>
+     <xs:element name='Date' type='xs:dateTime'/>
+     <xs:element name='Status' type='tns:StatusType'/>
+     <xs:element minOccurs='0' name='EvidenceName' type='xs:string'/>
+     <xs:element minOccurs='0' name='EvidenceDigest' type='tns:DigestType'/>
+     <xs:element minOccurs='0' name='FreeText' type='xs:string'/>
+     <xs:element minOccurs='0' name='VerificationToken' type='tns:DocumentType'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:simpleType name='OutputModeType'>
+    <xs:restriction base='xs:string'>
+     <xs:enumeration value='FilePath'/>
+     <xs:enumeration value='FTM'/>
+     <xs:enumeration value='Base64'/>
+     <xs:enumeration value='Plain'/>
+    </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name='StatusType'>
+    <xs:restriction base='xs:string'>
+     <xs:enumeration value='PASSED'/>
+     <xs:enumeration value='INCOMPLETE'/>
+     <xs:enumeration value='FAILED'/>
+    </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name='EncodingType'>
+    <xs:restriction base='xs:string'>
+     <xs:enumeration value='Hex'/>
+     <xs:enumeration value='Base64'/>
+    </xs:restriction>
+   </xs:simpleType>
+  </xs:schema>
+ </types>
+ <message name='LP7VerifyBoxService_getValidationPolicies'>
+  <part element='tns:ValidationPolicyRequest' name='ValidationPolicyRequest'/>
+ </message>
+ <message name='LP7VerifyBoxService_getValidationPoliciesResponse'>
+  <part element='tns:ValidationPolicyResponse' name='ValidationPolicyResponse'/>
+ </message>
+ <message name='LP7VerifyBoxService_getVerificationLogs'>
+  <part element='tns:VerificationLogRequest' name='VerificationLogRequest'/>
+ </message>
+ <message name='LP7VerifyBoxService_getVerificationLogsResponse'>
+  <part element='tns:VerificationLogResponse' name='VerificationLogResponse'/>
+ </message>
+ <message name='LP7VerifyBoxService_verify'>
+  <part element='tns:VerifyRequest' name='VerifyRequest'/>
+ </message>
+ <message name='LP7VerifyBoxService_verifyResponse'>
+  <part element='tns:VerifyResponse' name='VerifyResponse'/>
+ </message>
+ <portType name='LP7VerifyBoxService'>
+  <operation name='getValidationPolicies' parameterOrder='ValidationPolicyRequest'>
+   <input message='tns:LP7VerifyBoxService_getValidationPolicies'/>
+   <output message='tns:LP7VerifyBoxService_getValidationPoliciesResponse'/>
+  </operation>
+  <operation name='getVerificationLogs' parameterOrder='VerificationLogRequest'>
+   <input message='tns:LP7VerifyBoxService_getVerificationLogs'/>
+   <output message='tns:LP7VerifyBoxService_getVerificationLogsResponse'/>
+  </operation>
+  <operation name='verify' parameterOrder='VerifyRequest'>
+   <input message='tns:LP7VerifyBoxService_verify'/>
+   <output message='tns:LP7VerifyBoxService_verifyResponse'/>
+  </operation>
+ </portType>
+ <binding name='LP7VerifyBoxServiceBinding' type='tns:LP7VerifyBoxService'>
+  <soap:binding style='document' transport='http://schemas.xmlsoap.org/soap/http'/>
+  <operation name='getValidationPolicies'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body use='literal'/>
+   </input>
+   <output>
+    <soap:body use='literal'/>
+   </output>
+  </operation>
+  <operation name='getVerificationLogs'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body use='literal'/>
+   </input>
+   <output>
+    <soap:body use='literal'/>
+   </output>
+  </operation>
+  <operation name='verify'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body use='literal'/>
+   </input>
+   <output>
+    <soap:body use='literal'/>
+   </output>
+  </operation>
+ </binding>
+ <service name='LP7VerifyBoxService'>
+  <port binding='tns:LP7VerifyBoxServiceBinding' name='LP7VerifyBoxBeanPort'>
+   <soap:address location='http://172.19.33.79:8080/LP7VerifyBox-LP7VerifyBoxServer/LP7VerifyBoxBean'/>
+  </port>
+ </service>
+</definitions>
