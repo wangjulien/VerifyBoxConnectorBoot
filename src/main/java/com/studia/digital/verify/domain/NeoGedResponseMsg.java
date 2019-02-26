@@ -3,12 +3,16 @@ package com.studia.digital.verify.domain;
 import java.io.Serializable;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
+@JsonInclude(Include.NON_NULL)
 public class NeoGedResponseMsg implements Serializable {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 7711744317600349760L;
+	private static final long serialVersionUID = 8712800735692190596L;
 
 	private List<List<List<String>>> data;
 	private String messageErreur;
@@ -22,8 +26,8 @@ public class NeoGedResponseMsg implements Serializable {
 		super();
 	}
 
-	public NeoGedResponseMsg(List<List<List<String>>> data, String messageErreur, boolean last, String codeRetour, int maxSize,
-			String documentID, String nonStoredList) {
+	public NeoGedResponseMsg(List<List<List<String>>> data, String messageErreur, boolean last, String codeRetour,
+			int maxSize, String documentID, String nonStoredList) {
 		super();
 		this.data = data;
 		this.messageErreur = messageErreur;

@@ -13,7 +13,6 @@ import com.studia.digital.verify.domain.Document;
 import com.studia.digital.verify.domain.NeoGedRequestMsg;
 import com.studia.digital.verify.domain.NeoGedResponseMsg;
 import com.studia.digital.verify.service.neoged.NeoGedComProtocol.Command;
-import com.studia.digital.verify.service.neoged.NeoGedComProtocol.ElasticType;
 
 @Service
 public class NeoGedDocFacet {
@@ -29,18 +28,21 @@ public class NeoGedDocFacet {
 		this.restTemplate = restTemplate;
 	}
 
+	/**
+	 * Ge a document from NeoGed
+	 * 
+	 * @param docId
+	 * @param user
+	 * @param encryptedPassword
+	 * @param nomBase
+	 * @return
+	 */
 	public Document getDocumentById(final String docId, final String user, final String encryptedPassword,
 			final String nomBase) {
 
-		NeoGedRequestMsg getDocMessage = new NeoGedRequestMsg();
-		getDocMessage.setElasticCommand(String.format(Command.NEOGED_GET_DOC.toString(), docId));
-		getDocMessage.setElasticType(ElasticType.DOCUMENT.toString());
-		getDocMessage.setGetasbase64(true);
-		getDocMessage.setUser(user);
-		getDocMessage.setEncryptedPassword(encryptedPassword);
-		getDocMessage.setNomBase(nomBase);
-		getDocMessage.setMailid("");
-		getDocMessage.setMailOwner("");
+		NeoGedRequestMsg getDocMessage = new NeoGedRequestMsg.Builder()
+				.setElasticCommand(String.format(Command.NEOGED_GET_DOC.toString(), docId)).setUser(user)
+				.setEncryptedPassword(encryptedPassword).setNomBase(nomBase).setMailid("").setMailOwner("").build();
 
 		HttpEntity<NeoGedRequestMsg> request = new HttpEntity<>(getDocMessage);
 
@@ -66,4 +68,20 @@ public class NeoGedDocFacet {
 		return doc;
 	}
 
+	public void putDocument(final Document document, final String user, final String encryptedPassword,
+			final String nomBase) {
+
+		NeoGedRequestMsg getDocMessage = new NeoGedRequestMsg.Builder().setElasticCommand(Command.NEOGED_PUT.toString())
+				.setUser(user).setEncryptedPassword(encryptedPassword).setNomBase(nomBase).setMailid("")
+				.setMailOwner("").build();
+
+	}
+
+	public void attachDocuments(final Document doc, final Document tokenDoc, final String user,
+			final String encryptedPassword, final String nomBase) {
+		NeoGedRequestMsg getDocMessage = new NeoGedRequestMsg.Builder()
+				.setElasticCommand(Command.NEOGED_ATTACH_DOCUMENTS.toString()).setUser(user)
+				.setEncryptedPassword(encryptedPassword).setNomBase(nomBase).setMailid("").setMailOwner("").build();
+
+	}
 }

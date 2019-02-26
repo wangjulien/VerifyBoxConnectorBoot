@@ -28,7 +28,9 @@ public final class NeoGedComProtocol {
 	}
 	
 	public static enum Command {
-		NEOGED_GET_DOC("getDoc(_id=%s)");
+		NEOGED_GET_DOC("getDoc(_id=%s)"),
+		NEOGED_PUT("put()"),
+		NEOGED_ATTACH_DOCUMENTS("attachDocuments()");
 		
 		private String value;
 

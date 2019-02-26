@@ -1,24 +1,24 @@
 package com.studia.digital.verify.web;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.studia.digital.verify.domain.Document;
+import com.studia.digital.verify.domain.NeoGedRequestMsg;
+import com.studia.digital.verify.domain.NeoGedResponseMsg;
 import com.studia.digital.verify.service.IVerifySignatureService;
 import com.studia.digital.verify.service.neoged.NeoGedComProtocol;
 import com.studia.digital.verify.service.neoged.NeoGedDocFacet;
-import com.studia.digital.verify.service.neoged.NeoGedServletCaller;
 
-@Controller
+@RestController
 @RequestMapping("/VerifySignature")
 public class VerifySignatureController {
 	private static final Logger LOGGER = LoggerFactory.getLogger(VerifySignatureController.class);
@@ -34,16 +34,16 @@ public class VerifySignatureController {
 		this.neogedDocFacet = neogedDocFacet;
 	}
 
-	@RequestMapping(method = { RequestMethod.GET, RequestMethod.POST })
-	public void verifySignature(HttpServletRequest request, HttpServletResponse response) {
-		Map<String, Object> input = NeoGedServletCaller.lecture(request);
-		Map<String, Object> result = new HashMap<>();
+	@PostMapping
+	public ResponseEntity<NeoGedResponseMsg> verifySignature(@Valid @RequestBody NeoGedRequestMsg request) {
 
-		String message;
-		String commandeStr = (String) input.get(COMMAND_KEY);
+		NeoGedResponseMsg response = new NeoGedResponseMsg();
+
+		String commandeStr = request.getElasticCommand();
 
 		if (null == commandeStr) {
-			message = "action demandée inconnue";
+			response.setMessageErreur("action demandée inconnue");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
 		} else {
 
 			//
@@ -52,19 +52,33 @@ public class VerifySignatureController {
 			String docId = "AWb-gF_WkXtTuZ28Lq8y";
 			Document doc = neogedDocFacet.getDocumentById(docId, NeoGedComProtocol.NEOGED_USER,
 					NeoGedComProtocol.NEOGED_PSW, NeoGedComProtocol.NEOGED_DB);
-			
+
 			//
 			// Send the request for Verification
 			//
-			message = verifySignatureService.verifyInternalSignature(doc);
+			String tokenBase64 = verifySignatureService.verifyInternalSignature(doc);
+
+			//
+			// Put token document in NeoGed
+			//
+			Document tokenDoc = new Document();
+			tokenDoc.setContenuBase64(tokenBase64);
+			tokenDoc.setTitle("");
+			
+			neogedDocFacet.putDocument(tokenDoc, NeoGedComProtocol.NEOGED_USER,
+					NeoGedComProtocol.NEOGED_PSW, NeoGedComProtocol.NEOGED_DB);
+			
+
+			//
+			// Attach all documents together
+			//
+			neogedDocFacet.attachDocuments(doc, tokenDoc, NeoGedComProtocol.NEOGED_USER,
+					NeoGedComProtocol.NEOGED_PSW, NeoGedComProtocol.NEOGED_DB);
+			
 
 		}
 
-		result.put("codeRetour", "OK");
-		result.put("message", message);
-
-		NeoGedServletCaller.ecriture(response, result);
-
+		return ResponseEntity.ok(response);
 	}
 
 }

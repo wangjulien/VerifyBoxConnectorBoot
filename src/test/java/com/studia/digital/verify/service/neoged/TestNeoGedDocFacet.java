@@ -1,6 +1,6 @@
 package com.studia.digital.verify.service.neoged;
 
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,7 +22,7 @@ public class TestNeoGedDocFacet {
 		Document doc = neoGedDocFacet.getDocumentById("AWb-gF_WkXtTuZ28Lq8y", NeoGedComProtocol.NEOGED_USER,
 				NeoGedComProtocol.NEOGED_PSW, NeoGedComProtocol.NEOGED_DB);
 
-		assertNull(doc);
+		assertNotNull(doc.getContenuBase64());
 	}
 
 }
