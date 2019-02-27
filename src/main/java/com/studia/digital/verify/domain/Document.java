@@ -4,16 +4,18 @@ public class Document {
 	private String docId;
 	private String title;
 	private String contenuBase64;
+	private String mimeType;
 
 	public Document() {
 		super();
 	}
 
-	public Document(String docId, String title, String contenuBase64) {
+	public Document(String docId, String title, String contenuBase64, String mimeType) {
 		super();
 		this.docId = docId;
 		this.title = title;
 		this.contenuBase64 = contenuBase64;
+		this.mimeType = mimeType;
 	}
 
 	public String getDocId() {
@@ -38,6 +40,14 @@ public class Document {
 
 	public void setContenuBase64(String contenuBase64) {
 		this.contenuBase64 = contenuBase64;
+	}
+
+	public String getMimeType() {
+		return mimeType;
+	}
+
+	public void setMimeType(String mimeType) {
+		this.mimeType = mimeType;
 	}
 
 }

@@ -1,0 +1,13 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /VerfiyBoxConnector
+  tomcat:
+    accesslog:
+      enabled: true
+    basedir: ~/tomcat
+    
+
+logging:
+  level:
+    com.studia.digital.verify: debug

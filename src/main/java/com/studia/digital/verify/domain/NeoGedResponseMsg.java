@@ -93,4 +93,12 @@ public class NeoGedResponseMsg implements Serializable {
 	public void setNonStoredList(String nonStoredList) {
 		this.nonStoredList = nonStoredList;
 	}
+
+	@Override
+	public String toString() {
+		return "NeoGedResponseMsg [data=" + data.toString() + ", messageErreur=" + messageErreur + ", last=" + last
+				+ ", codeRetour=" + codeRetour + ", maxSize=" + maxSize + ", documentID=" + documentID
+				+ ", nonStoredList=" + nonStoredList + "]";
+	}
+
 }

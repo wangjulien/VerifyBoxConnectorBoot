@@ -4,20 +4,36 @@ import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.studia.digital.verify.service.neoged.NeoGedComProtocol.ElasticType;
 
+/**
+ * class of NeoGed request, using for JSON - Object mapping
+ * 
+ * @author Jiliang.WANG
+ *
+ */
 @JsonInclude(Include.NON_NULL)
 public class NeoGedRequestMsg implements Serializable {
+
+	private static final String MAIL_ID = "dgerbod@gmail.com";
 
 	public static class Builder {
 
 		private String elasticCommand;
 		private String elasticType;
 		private boolean getasbase64;
+
 		private String fileContent;
 		private Integer elasticTaille;
 		private String elasticContentType;
 		private String elasticDocName;
+		private String elasticId;
+		private String documentsList;
+
+		private String elasticRequest;
+		private String elasticFields;
+		private String versionfilter;
 
 		private String user;
 		private String encryptedPassword;
@@ -27,8 +43,10 @@ public class NeoGedRequestMsg implements Serializable {
 
 		public Builder() {
 			super();
-			this.elasticContentType = ElasticType.DOCUMENT.toString();
+			this.elasticType = ElasticType.DOCUMENT.toString();
 			this.getasbase64 = true;
+			this.mailid = MAIL_ID;
+			this.mailOwner = MAIL_ID;
 		}
 
 		public Builder setElasticCommand(String elasticCommand) {
@@ -63,6 +81,31 @@ public class NeoGedRequestMsg implements Serializable {
 
 		public Builder setElasticDocName(String elasticDocName) {
 			this.elasticDocName = elasticDocName;
+			return this;
+		}
+
+		public Builder setElasticId(String elasticId) {
+			this.elasticId = elasticId;
+			return this;
+		}
+
+		public Builder setDocumentsList(String documentsList) {
+			this.documentsList = documentsList;
+			return this;
+		}
+
+		public Builder setElasticRequest(String elasticRequest) {
+			this.elasticRequest = elasticRequest;
+			return this;
+		}
+
+		public Builder setElasticFields(String elasticFields) {
+			this.elasticFields = elasticFields;
+			return this;
+		}
+
+		public Builder setVersionfilter(String versionfilter) {
+			this.versionfilter = versionfilter;
 			return this;
 		}
 
@@ -109,12 +152,24 @@ public class NeoGedRequestMsg implements Serializable {
 	private Integer elasticTaille;
 	private String elasticContentType;
 	private String elasticDocName;
+	@JsonProperty("elasticid")
+	private String elasticId;
+	@JsonProperty("documents_list")
+	private String documentsList;
+
+	private String elasticRequest;
+	private String elasticFields;
+	private String versionfilter;
 
 	private String user;
 	private String encryptedPassword;
 	private String mailid;
 	private String nomBase;
 	private String mailOwner;
+
+	public NeoGedRequestMsg() {
+		super();
+	}
 
 	private NeoGedRequestMsg(Builder builder) {
 		super();
@@ -125,6 +180,11 @@ public class NeoGedRequestMsg implements Serializable {
 		this.elasticTaille = builder.elasticTaille;
 		this.elasticContentType = builder.elasticContentType;
 		this.elasticDocName = builder.elasticDocName;
+		this.elasticId = builder.elasticId;
+		this.documentsList = builder.documentsList;
+		this.elasticRequest = builder.elasticRequest;
+		this.elasticFields = builder.elasticFields;
+		this.versionfilter = builder.versionfilter;
 		this.user = builder.user;
 		this.encryptedPassword = builder.encryptedPassword;
 		this.mailid = builder.mailid;
@@ -186,6 +246,46 @@ public class NeoGedRequestMsg implements Serializable {
 
 	public void setElasticDocName(String elasticDocName) {
 		this.elasticDocName = elasticDocName;
+	}
+
+	public String getElasticId() {
+		return elasticId;
+	}
+
+	public void setElasticId(String elasticId) {
+		this.elasticId = elasticId;
+	}
+
+	public String getDocumentsList() {
+		return documentsList;
+	}
+
+	public void setDocumentsList(String documentsList) {
+		this.documentsList = documentsList;
+	}
+
+	public String getElasticRequest() {
+		return elasticRequest;
+	}
+
+	public void setElasticRequest(String elasticRequest) {
+		this.elasticRequest = elasticRequest;
+	}
+
+	public String getElasticFields() {
+		return elasticFields;
+	}
+
+	public void setElasticFields(String elasticFields) {
+		this.elasticFields = elasticFields;
+	}
+
+	public String getVersionfilter() {
+		return versionfilter;
+	}
+
+	public void setVersionfilter(String versionfilter) {
+		this.versionfilter = versionfilter;
 	}
 
 	public String getUser() {
