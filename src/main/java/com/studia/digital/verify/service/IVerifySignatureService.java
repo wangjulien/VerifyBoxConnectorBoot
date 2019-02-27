@@ -1,5 +1,9 @@
 package com.studia.digital.verify.service;
 
+
+import java.util.Map.Entry;
+
+import com.lexpersona.lp7verifybox.server.jaxb.StatusType;
 import com.studia.digital.verify.domain.Document;
 
 /**
@@ -10,7 +14,7 @@ import com.studia.digital.verify.domain.Document;
  */
 public interface IVerifySignatureService {
 
-	String verifyInternalSignature(final Document document);
-	
-	String verifyExternalSignature(Document document, Document signature);
+	Entry<StatusType, String> verifyInternalSignature(final Document document);
+
+	Entry<StatusType, String> verifyExternalSignature(Document document, Document signature);
 }

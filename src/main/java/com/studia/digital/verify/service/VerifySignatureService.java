@@ -1,5 +1,8 @@
 package com.studia.digital.verify.service;
 
+import java.util.AbstractMap.SimpleEntry;
+import java.util.Map.Entry;
+
 import org.springframework.stereotype.Service;
 
 import com.lexpersona.lp7verifybox.server.jaxb.Base64DataType;
@@ -10,6 +13,7 @@ import com.lexpersona.lp7verifybox.server.jaxb.OptionalInputsType;
 import com.lexpersona.lp7verifybox.server.jaxb.OutputModeType;
 import com.lexpersona.lp7verifybox.server.jaxb.OutputSettingsType;
 import com.lexpersona.lp7verifybox.server.jaxb.RequestedDataType;
+import com.lexpersona.lp7verifybox.server.jaxb.StatusType;
 import com.lexpersona.lp7verifybox.server.jaxb.VerifyRequestType;
 import com.lexpersona.lp7verifybox.server.jaxb.VerifyResponseType;
 import com.studia.digital.verify.domain.Document;
@@ -28,7 +32,7 @@ public class VerifySignatureService implements IVerifySignatureService {
 	}
 
 	@Override
-	public String verifyInternalSignature(final Document document) {
+	public Entry<StatusType, String> verifyInternalSignature(final Document document) {
 		//
 		// Content of poof to be verified
 		//
@@ -60,15 +64,20 @@ public class VerifySignatureService implements IVerifySignatureService {
 		verifyRequestType.setOptionalInputs(options);
 
 		VerifyResponseType response = verifyBoxServiceClient.verifySignature(verifyRequestType);
-
+		
+		//
+		// TODO: Extraction verification result information
+		//
+		
 		// Extraction of Token
 		String tokenBase64 = response.getOptionalOutputs().getVerificationToken().getBase64Data().getBase64Value();
+		StatusType resultStatus = response.getResult().getVerificationStatus();
 
-		return tokenBase64;
+		return new SimpleEntry<>(resultStatus,tokenBase64);
 	}
 
 	@Override
-	public String verifyExternalSignature(final Document document, final Document signature) {
+	public Entry<StatusType, String> verifyExternalSignature(final Document document, final Document signature) {
 		//
 		// Content of poof to be verified
 		//
@@ -115,8 +124,9 @@ public class VerifySignatureService implements IVerifySignatureService {
 
 		// Extraction of Token
 		String tokenBase64 = response.getOptionalOutputs().getVerificationToken().getBase64Data().getBase64Value();
+		StatusType resultStatus = response.getResult().getVerificationStatus();
 
-		return tokenBase64;
+		return new SimpleEntry<>(resultStatus,tokenBase64);
 	}
 
 }
