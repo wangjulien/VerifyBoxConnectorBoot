@@ -1,5 +1,11 @@
 package com.studia.digital.verify.domain;
 
+/**
+ * Business Object represent a Document 
+ * 
+ * @author Jiliang.WANG
+ *
+ */
 public class Document {
 	private String docId;
 	private String title;

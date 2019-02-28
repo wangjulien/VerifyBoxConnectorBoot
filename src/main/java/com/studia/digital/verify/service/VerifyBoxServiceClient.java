@@ -1,5 +1,7 @@
 package com.studia.digital.verify.service;
 
+import java.util.Base64;
+
 import javax.xml.bind.JAXBElement;
 
 import org.slf4j.Logger;
@@ -15,6 +17,12 @@ import com.lexpersona.lp7verifybox.server.jaxb.VerifyRequestType;
 import com.lexpersona.lp7verifybox.server.jaxb.VerifyResponseType;
 import com.lexpersona.lp7verifybox.server.ws.ObjectFactory;
 
+/**
+ * Implementation of @IVerifyBoxServiceClient
+ * 
+ * @author Jiliang.WANG
+ *
+ */
 public class VerifyBoxServiceClient extends WebServiceGatewaySupport implements IVerifyBoxServiceClient {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(VerifyBoxServiceClient.class);
@@ -29,6 +37,7 @@ public class VerifyBoxServiceClient extends WebServiceGatewaySupport implements 
 				wsObjectFactory.createVerifyRequest(verifyRequestType), new SoapActionCallback(""))).getValue();
 
 		LOGGER.debug(response.getRequestID() + " " + response.getResult().getMessage());
+		LOGGER.debug(new String(Base64.getDecoder().decode(response.getOptionalOutputs().getVerificationToken().getBase64Data().getBase64Value())));
 		return response;
 	}
 

@@ -6,6 +6,12 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
+/**
+ * Class is abstraction of NeoGed result response. The attributes are nullable
+ * 
+ * @author Jiliang.WANG
+ *
+ */
 @JsonInclude(Include.NON_NULL)
 public class NeoGedResponseMsg implements Serializable {
 
@@ -16,9 +22,9 @@ public class NeoGedResponseMsg implements Serializable {
 
 	private List<List<List<String>>> data;
 	private String messageErreur;
-	private boolean last;
+	private Boolean last;
 	private String codeRetour;
-	private int maxSize;
+	private Integer maxSize;
 	private String documentID;
 	private String nonStoredList;
 
@@ -26,8 +32,8 @@ public class NeoGedResponseMsg implements Serializable {
 		super();
 	}
 
-	public NeoGedResponseMsg(List<List<List<String>>> data, String messageErreur, boolean last, String codeRetour,
-			int maxSize, String documentID, String nonStoredList) {
+	public NeoGedResponseMsg(List<List<List<String>>> data, String messageErreur, Boolean last, String codeRetour,
+			Integer maxSize, String documentID, String nonStoredList) {
 		super();
 		this.data = data;
 		this.messageErreur = messageErreur;
@@ -54,11 +60,11 @@ public class NeoGedResponseMsg implements Serializable {
 		this.messageErreur = messageErreur;
 	}
 
-	public boolean isLast() {
+	public Boolean isLast() {
 		return last;
 	}
 
-	public void setLast(boolean last) {
+	public void setLast(Boolean last) {
 		this.last = last;
 	}
 
@@ -70,11 +76,11 @@ public class NeoGedResponseMsg implements Serializable {
 		this.codeRetour = codeRetour;
 	}
 
-	public int getMaxSize() {
+	public Integer getMaxSize() {
 		return maxSize;
 	}
 
-	public void setMaxSize(int maxSize) {
+	public void setMaxSize(Integer maxSize) {
 		this.maxSize = maxSize;
 	}
 

@@ -18,6 +18,12 @@ import com.lexpersona.lp7verifybox.server.jaxb.VerifyRequestType;
 import com.lexpersona.lp7verifybox.server.jaxb.VerifyResponseType;
 import com.studia.digital.verify.domain.Document;
 
+/**
+ * Implementation of @IVerifySignatureService
+ * 
+ * @author Jiliang.WANG
+ *
+ */
 @Service
 public class VerifySignatureService implements IVerifySignatureService {
 

@@ -21,7 +21,7 @@ import com.studia.digital.verify.service.neoged.NeoGedComProtocol.ReturnCode;
 import com.studia.digital.verify.service.neoged.NeoGedDocFacet;
 
 /**
- * A REST controller, define the entry point of Verify Signature web service
+ * A REST controller, define the entry point of Verify Signature web service with NeoGed
  * 
  * @author Jiliang.WANG
  *
@@ -50,6 +50,7 @@ public class VerifySignatureController {
 		if (null == commandeStr)
 			throw new VerifySignatureException("Action demandée inconnue");
 
+		// TODO : this parameter should be given by incomming Request, as well a Signature DocID
 		boolean external = false;
 
 		//

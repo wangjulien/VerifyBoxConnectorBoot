@@ -8,7 +8,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.studia.digital.verify.service.neoged.NeoGedComProtocol.ElasticType;
 
 /**
- * class of NeoGed request, using for JSON - Object mapping
+ * class of NeoGed request, using for JSON - Object mapping. It group all
+ * possible NoeGed request used in this App, so certain attributes may be
+ * Nullable. Jackson will not parser/string null attributes.
+ * 
+ * So test Null of the attributes before use.
+ * 
+ * Use the builder to create the request for Neoged
  * 
  * @author Jiliang.WANG
  *
@@ -22,7 +28,8 @@ public class NeoGedRequestMsg implements Serializable {
 
 		private String elasticCommand;
 		private String elasticType;
-		private boolean getasbase64;
+		private Boolean getasbase64;
+		private Integer secuLevel;
 
 		private String fileContent;
 		private Integer elasticTaille;
@@ -47,6 +54,7 @@ public class NeoGedRequestMsg implements Serializable {
 			this.getasbase64 = true;
 			this.mailid = MAIL_ID;
 			this.mailOwner = MAIL_ID;
+			this.secuLevel = 9; // Security 9 means this App can read any file in Neoged
 		}
 
 		public Builder setElasticCommand(String elasticCommand) {
@@ -59,8 +67,13 @@ public class NeoGedRequestMsg implements Serializable {
 			return this;
 		}
 
-		public Builder setGetasbase64(boolean getasbase64) {
+		public Builder setGetasbase64(Boolean getasbase64) {
 			this.getasbase64 = getasbase64;
+			return this;
+		}
+
+		public Builder setSecuLevel(Integer secuLevel) {
+			this.secuLevel = secuLevel;
 			return this;
 		}
 
@@ -147,7 +160,9 @@ public class NeoGedRequestMsg implements Serializable {
 
 	private String elasticCommand;
 	private String elasticType;
-	private boolean getasbase64;
+	private Boolean getasbase64;
+	private Integer secuLevel;
+
 	private String fileContent;
 	private Integer elasticTaille;
 	private String elasticContentType;
@@ -176,6 +191,7 @@ public class NeoGedRequestMsg implements Serializable {
 		this.elasticCommand = builder.elasticCommand;
 		this.elasticType = builder.elasticType;
 		this.getasbase64 = builder.getasbase64;
+		this.secuLevel = builder.secuLevel;
 		this.fileContent = builder.fileContent;
 		this.elasticTaille = builder.elasticTaille;
 		this.elasticContentType = builder.elasticContentType;
@@ -208,12 +224,20 @@ public class NeoGedRequestMsg implements Serializable {
 		this.elasticType = elasticType;
 	}
 
-	public boolean isGetasbase64() {
+	public Boolean isGetasbase64() {
 		return getasbase64;
 	}
 
-	public void setGetasbase64(boolean getasbase64) {
+	public void setGetasbase64(Boolean getasbase64) {
 		this.getasbase64 = getasbase64;
+	}
+
+	public Integer getSecuLevel() {
+		return secuLevel;
+	}
+
+	public void setSecuLevel(Integer secuLevel) {
+		this.secuLevel = secuLevel;
 	}
 
 	public String getFileContent() {

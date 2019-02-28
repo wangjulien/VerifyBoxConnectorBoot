@@ -1,5 +1,11 @@
 package com.studia.digital.verify.exception;
 
+/**
+ * Base exception for application, centrally treated 
+ * 
+ * @author Jiliang.WANG
+ *
+ */
 public class VerifySignatureException extends RuntimeException {
 
 	/**

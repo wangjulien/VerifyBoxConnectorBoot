@@ -30,7 +30,11 @@ import org.springframework.ws.server.endpoint.adapter.method.MarshallingPayloadM
 import com.studia.digital.verify.service.VerifyBoxServiceClient;
 
 /**
- * Configuration pour SOAP WS
+ * Configuration pour SOAP WS : 
+ * - A marshaller which takes into account the Class produced by Jaxb2 
+ * - A bean VerifyBoxServiceClient which use WebServiceTemplate for SOAP communication 
+ * - A RestTemplate which will send HTTP (Pseudo REST) request for NeoGed. 
+ * 		A "permit all policy" is used for HTTPS certificate verification
  * 
  * @author jwang
  *
