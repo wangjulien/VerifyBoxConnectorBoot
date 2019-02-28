@@ -1,5 +1,6 @@
 package com.studia.digital.verify.service.neoged;
 
+import java.util.Base64;
 import java.util.function.BiConsumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -110,10 +111,13 @@ public class NeoGedDocFacet {
 	public void putDocument(final Document document, final String user, final String encryptedPassword,
 			final String nomBase) {
 
-		NeoGedRequestMsg putDocMessage = new NeoGedRequestMsg.Builder().setElasticCommand(Command.NEOGED_PUT.toString())
-				.setFileContent(document.getContenuBase64()).setElasticTaille(document.getContenuBase64().length())
-				.setElasticDocName(document.getTitle()).setElasticContentType(document.getMimeType()).setUser(user)
-				.setEncryptedPassword(encryptedPassword).setNomBase(nomBase)
+		NeoGedRequestMsg putDocMessage = new NeoGedRequestMsg.Builder()
+				.setElasticCommand(Command.NEOGED_PUT.toString())
+				.setFileContent(document.getContenuBase64())
+				.setElasticTaille(Base64.getDecoder().decode(document.getContenuBase64()).length)
+				.setElasticDocName(document.getTitle())
+				.setElasticContentType(document.getMimeType())
+				.setUser(user).setEncryptedPassword(encryptedPassword).setNomBase(nomBase)
 				.build();
 
 		templatePostMethod(putDocMessage, document, (doc, resp) -> {
@@ -133,7 +137,8 @@ public class NeoGedDocFacet {
 	public void attachDocuments(final Document originalDoc, final Document tokenDoc, final String user,
 			final String encryptedPassword, final String nomBase) {
 		NeoGedRequestMsg attachDocMessage = new NeoGedRequestMsg.Builder()
-				.setElasticCommand(Command.NEOGED_ATTACH_DOCUMENTS.toString()).setElasticId(originalDoc.getDocId())
+				.setElasticCommand(Command.NEOGED_ATTACH_DOCUMENTS.toString())
+				.setElasticId(originalDoc.getDocId())
 				.setDocumentsList(String.join(";", tokenDoc.getDocId(), tokenDoc.getTitle(), tokenDoc.getMimeType()))
 				.setUser(user).setEncryptedPassword(encryptedPassword).setNomBase(nomBase)
 				.build();

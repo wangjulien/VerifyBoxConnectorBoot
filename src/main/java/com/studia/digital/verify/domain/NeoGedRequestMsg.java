@@ -163,6 +163,8 @@ public class NeoGedRequestMsg implements Serializable {
 	private Boolean getasbase64;
 	private Integer secuLevel;
 
+	private String signatureDocId;
+
 	private String fileContent;
 	private Integer elasticTaille;
 	private String elasticContentType;
@@ -234,6 +236,14 @@ public class NeoGedRequestMsg implements Serializable {
 
 	public Integer getSecuLevel() {
 		return secuLevel;
+	}
+
+	public String getSignatureDocId() {
+		return signatureDocId;
+	}
+
+	public void setSignatureDocId(String signatureDocId) {
+		this.signatureDocId = signatureDocId;
 	}
 
 	public void setSecuLevel(Integer secuLevel) {

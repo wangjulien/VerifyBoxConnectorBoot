@@ -1,7 +1,5 @@
 package com.studia.digital.verify.service;
 
-import java.util.Base64;
-
 import javax.xml.bind.JAXBElement;
 
 import org.slf4j.Logger;
@@ -37,7 +35,7 @@ public class VerifyBoxServiceClient extends WebServiceGatewaySupport implements 
 				wsObjectFactory.createVerifyRequest(verifyRequestType), new SoapActionCallback(""))).getValue();
 
 		LOGGER.debug(response.getRequestID() + " " + response.getResult().getMessage());
-		LOGGER.debug(new String(Base64.getDecoder().decode(response.getOptionalOutputs().getVerificationToken().getBase64Data().getBase64Value())));
+		// LOGGER.debug(new String(Base64.getDecoder().decode(response.getOptionalOutputs().getVerificationToken().getBase64Data().getBase64Value())));
 		return response;
 	}
 

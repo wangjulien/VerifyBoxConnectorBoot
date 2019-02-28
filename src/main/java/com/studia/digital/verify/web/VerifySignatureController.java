@@ -1,6 +1,7 @@
 package com.studia.digital.verify.web;
 
 import java.util.Map.Entry;
+import java.util.Objects;
 
 import javax.validation.Valid;
 
@@ -50,8 +51,6 @@ public class VerifySignatureController {
 		if (null == commandeStr)
 			throw new VerifySignatureException("Action demandée inconnue");
 
-		// TODO : this parameter should be given by incomming Request, as well a Signature DocID
-		boolean external = false;
 
 		//
 		// 1. Require Document with DocId and ProofId
@@ -70,12 +69,12 @@ public class VerifySignatureController {
 		// 2. Send the request for Verification
 		//
 		Entry<StatusType, String> verifyResult = null;
-		if (external) {
+		if (Objects.nonNull(request.getSignatureDocId())) {
 			//
 			// 2bis. if there is a external signature, we should get the external signature
 			// doc
 			//
-			String signatureDocId = "";
+			String signatureDocId = request.getSignatureDocId();
 			Document signatureDoc = neogedDocFacet.getDocumentById(signatureDocId, request.getUser(),
 					request.getEncryptedPassword(), request.getNomBase());
 

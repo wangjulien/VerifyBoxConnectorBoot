@@ -48,6 +48,7 @@ public class VerifySignatureService implements IVerifySignatureService {
 		DocumentType documentType = objectFactory.createDocumentType();
 		documentType.setBase64Data(base64Content);
 		documentType.setID(document.getDocId());
+		documentType.setFileName(document.getTitle());
 
 		//
 		// Output Options
@@ -97,10 +98,12 @@ public class VerifySignatureService implements IVerifySignatureService {
 		DocumentType documentType = objectFactory.createDocumentType();
 		documentType.setBase64Data(base64Content);
 		documentType.setID(document.getDocId());
+		documentType.setFileName(document.getTitle());
 
 		DocumentType proof = objectFactory.createDocumentType();
 		proof.setBase64Data(base64SignatureContenu);
 		proof.setID(signature.getDocId());
+		proof.setFileName(signature.getTitle());
 
 		//
 		// Output Options
